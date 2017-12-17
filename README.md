@@ -1,3 +1,15 @@
 # FlappyBird
 
-add description of FlappyBird here
+This is a simple game made in a pure functional programming language —— Haskell.
+
+To run the game, you must have Cabal installed in your OS. You can get it by installing the Haskell Platform: 
+`https://www.haskell.org/platform/`.
+
+# Usage
+```
+stack build
+stack exec FlappyBird
+```
+The game has 3 levels. You are going to level up each at score 5, 10 and 15.
+
+Controls: Press the up arrow key to control the bird and to pass the menu scenes.
