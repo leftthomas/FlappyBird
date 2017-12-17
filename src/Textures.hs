@@ -8,12 +8,12 @@ module Textures (
 
 import Graphics.UI.Fungen
 
-bmpList = [("../assets/tex.bmp", black),
-            ("../assets/wall.bmp", black),
-            ("../assets/floor.bmp", magenta),
-            ("../assets/ceil.bmp", magenta),
-            ("../assets/wall2.bmp", black),
-            ("../assets/player.bmp", black)]
+bmpList = [("assets/tex.bmp", black),
+            ("assets/wall.bmp", black),
+            ("assets/floor.bmp", magenta),
+            ("assets/ceil.bmp", magenta),
+            ("assets/wall2.bmp", black),
+            ("assets/player.bmp", black)]
 
 textureMapIndex :: Int
 textureMapIndex = 0

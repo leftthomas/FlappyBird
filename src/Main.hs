@@ -17,8 +17,8 @@ gameCycle = do
     LevelStart n -> do printOnScreen (printf "Level %d" n) TimesRoman24 middleScreen 1.0 1.0 1.0
     Level n -> do (GA score _ _) <- getGameAttribute
                   when (score >= 5*n) (do
-                  if(n < 3) then do setGameState (LevelStart (n+1))
-                  else do setGameState (Win)
+                    if(n < 3) then do setGameState (LevelStart (n+1))
+                    else do setGameState (Win)
                                      )
     GameOver -> do printOnScreen (printf "GAMEOVER!") TimesRoman24 middleScreen 1.0 1.0 1.0
     Win -> do printOnScreen (printf "VOCÊ GANHOU!") TimesRoman24 middleScreen 1.0 1.0 1.0
