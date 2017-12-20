@@ -26,16 +26,16 @@ getPictureIndex pictureName (x:xs) = if length xs == 0 then index
 --init the color
 black = color 0 0 0
 magenta = color 255 0 255
-pictures = [(("backgroud",0::Int),("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/tex.bmp", black)),
-            (("wall",1::Int),("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/wall.bmp", black)),
-            (("ceil",2::Int),("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/floor.bmp", magenta)),
-            (("floor",3::Int),("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/ceil.bmp", magenta)),
-            (("flappyBird",4::Int),("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/player.bmp", black)),
-            (("gold",5::Int),("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/gold.bmp", black))]
+pictures = [(("backgroud",0::Int),("../assets/tex.bmp", black)),
+            (("wall",1::Int),("../assets/wall.bmp", black)),
+            (("ceil",2::Int),("../assets/floor.bmp", magenta)),
+            (("floor",3::Int),("../assets/ceil.bmp", magenta)),
+            (("flappyBird",4::Int),("../assets/player.bmp", black)),
+            (("gold",5::Int),("../assets/gold.bmp", black))]
 
-bmList = [("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/tex.bmp", black),
-            ("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/wall.bmp", black),
-            ("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/floor.bmp", magenta),
-            ("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/ceil.bmp", magenta),
-            ("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/player.bmp", black),
-            ("/Users/lingxiaoxia/IdeaProjects/FlappyBird/assets/gold.bmp", black)]
+bmList = [("../assets/tex.bmp", black),
+            ("../assets/wall.bmp", black),
+            ("../assets/floor.bmp", magenta),
+            ("../assets/ceil.bmp", magenta),
+            ("../assets/player.bmp", black),
+            ("../assets/gold.bmp", black)]
