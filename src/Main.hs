@@ -1,55 +1,61 @@
 module Main where
+
 import Graphics.UI.Fungen
-import Types
-import Player
-import Textures
-import Variables
-import ObstacleManager
+import FlappyBirdClass
+import ObjectSynonyms
+import ObstacleClass
+import ObstacleOperation
+import GoldOperation
+import Picture
+import SizeSetting
 import Text.Printf
 
-gameCycle :: FBirdAction ()
+gameCycle :: IOGame' ()
 gameCycle = do
-  playerCycle
-  obstacleManagerCycle
+  obstacleCycle
+  goldCycle
+  flappyBirdCycle
   showScore
-  gs <- getGameState
-  case gs of
-    LevelStart n -> do printOnScreen (printf "Level %d" n) TimesRoman24 middleScreen 1.0 1.0 1.0
-    Level n -> do (GA score _ _) <- getGameAttribute
+  gameState <- getGameState
+  case gameState of
+    LevelStart n -> do printOnScreen (printf "Level %d" n) TimesRoman24 middlePosition 1.0 1.0 1.0
+    Level n -> do (GameAttribute score _ _ _ _) <- getGameAttribute
                   when (score >= 5*n) (do
                     if(n < 3) then do setGameState (LevelStart (n+1))
                     else do setGameState (Win)
                                      )
-    GameOver -> do printOnScreen (printf "GAMEOVER!") TimesRoman24 middleScreen 1.0 1.0 1.0
-    Win -> do printOnScreen (printf "VOCÊ GANHOU!") TimesRoman24 middleScreen 1.0 1.0 1.0
+    GameOver -> do printOnScreen (printf "Defeat!") TimesRoman24 middlePosition 1.0 1.0 1.0
+    Win -> do printOnScreen (printf "Victory!") TimesRoman24 middlePosition 1.0 1.0 1.0
 
-stateControl :: Modifiers -> Position -> FBirdAction ()
+stateControl :: Modifiers -> Position -> IOGame' ()
 stateControl m p = do
-  gs <- getGameState
-  case gs of
+  gameState <- getGameState
+  case gameState of
     LevelStart n -> do setGameState (Level (n))
                        drawMap
-    Level n -> do playerFly m p
+    Level n -> do flying m p
     GameOver -> funExit
     Win -> funExit
 
-showScore :: FBirdAction ()
+showScore :: IOGame' ()
 showScore = do
-  (GA score _ _) <- getGameAttribute
-  ga <- getGameState
-  case ga of
+  (GameAttribute score _ goldNumber _ _) <- getGameAttribute
+  gameState <- getGameState
+  case gameState of
     LevelStart n -> return()
-    Level n -> do printOnScreen (printf "Score: %d    Level: %d" score n) TimesRoman24 (40,(fromIntegral(snd windowResolution)-60)) 1.0 1.0 1.0
+    Level n -> do printOnScreen (printf "Score: %d  Gold: %d  Level: %d" score goldNumber n) TimesRoman24 (40,(fromIntegral(snd windowSize)-60)) 1.0 1.0 1.0
     GameOver -> return()
     Win -> return()
 
 main :: IO()
-main = do
-  let winConfig = ((0,0), windowResolution, "Flappy Bird")
-      gameMap = textureMap 0 (fst textureMapSize) (snd textureMapSize) 250.0 250.0
+main =
+  let winConfig = ((0,0), windowSize, "Flappy Bird")
+      gameMap = textureMap 0 (fst backgroudSize) (snd backgroudSize) 500.0 500.0
+      flappyBirds = objectGroup "flappyBird" [flappyBird]
+      floors = objectGroup "floors" createFloorAndCeil
       walls = objectGroup "walls" createWalls
-      player = objectGroup "player" [playerCreate]
-      floor = objectGroup "floor" createFloor
+      golds = objectGroup "golds" createGolds
       input = [(SpecialKey KeyUp, Press, stateControl)]
-      startingAttributes = GA 0 ((snd windowResolution)`div`2) False
-  funInit winConfig gameMap [player, walls, floor] (LevelStart 1) startingAttributes input gameCycle (Timer 40) bmpList
+      startingAttributes = GameAttribute 0 ((snd windowSize)`div`2) 0 False 0
+  in funInit winConfig gameMap [flappyBirds, walls, floors, golds] (LevelStart 1) startingAttributes input gameCycle (Timer 40) bmList
+
