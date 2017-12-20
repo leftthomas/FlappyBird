@@ -19,9 +19,11 @@ gameCycle = do
   gameState <- getGameState
   case gameState of
     LevelStart n -> do printOnScreen (printf "Level %d" n) TimesRoman24 middlePosition 1.0 1.0 1.0
-    Level n -> do (GameAttribute score _ _ _ _) <- getGameAttribute
-                  when (score >= 5*n) (do
-                    if(n < 3) then do setGameState (LevelStart (n+1))
+    Level n -> do (GameAttribute score _ goldNumber _ _) <- getGameAttribute
+                  when (score >= 5 && goldNumber >= 100) (do
+                    if(n < 3) then do
+                         setGameState (LevelStart (n+1))
+                         setGameAttribute (GameAttribute 0 ((snd windowSize)`div`2) 0 False 0)
                     else do setGameState (Win)
                                      )
     GameOver -> do printOnScreen (printf "Defeat!") TimesRoman24 middlePosition 1.0 1.0 1.0
