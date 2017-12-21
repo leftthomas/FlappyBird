@@ -49,10 +49,10 @@ updateGoldsPosition [] = return()
 updateGoldsPosition (x:xs) = do
   (px, py) <- getObjectPosition x
   when (isGoldOut px) (do
-    (GameAttribute score lastWallY goldNumber open lastCollisionGold) <- getGameAttribute
+    (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
     let y = fromIntegral (unsafePerformIO $ randomRIO (200, 500)::Int)
     setObjectPosition (wallRightPosition, y) x
-    setGameAttribute (GameAttribute score lastWallY goldNumber open lastCollisionGold)
+    setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
                       )
   updateGoldsPosition xs
 
@@ -83,11 +83,11 @@ computeGolds _ 10 = return ()
 computeGolds (x:xs) y = do
         flappyBirds <- getObjectsFromGroup "flappyBird"
         isCollision <- objectListObjectCollision flappyBirds x
-        (GameAttribute score lastWallY goldNumber open lastCollisionGold) <- getGameAttribute
+        (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
         when (isCollision) (do
             if (lastCollisionGold /= y) then
-                 setGameAttribute (GameAttribute score lastWallY (goldNumber + 1) open y)
+                 setGameAttribute (GameAttribute score wallSpace (goldNumber + 1) down tempY y)
             else
-                 setGameAttribute (GameAttribute score lastWallY goldNumber open lastCollisionGold)
+                 setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
                            )
         computeGolds xs (y+1)

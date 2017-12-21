@@ -19,7 +19,7 @@ import Graphics.UI.Fungen
   -- * u - /U/pdating game state type,
   --
   -- * v - /V/icinity (map tile) attribute type.
-data GameAttribute = GameAttribute Int Int Int Bool Int
+data GameAttribute = GameAttribute Int Double Int Bool Int Int
 data GameState = LevelStart Int | Level Int | GameOver | Win
 type FlappyBird  = GameObject ()
 type Wall  = GameObject ()

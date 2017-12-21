@@ -9,6 +9,8 @@ import GoldOperation
 import Picture
 import SizeSetting
 import Text.Printf
+import System.IO.Unsafe
+import System.Random
 
 gameCycle :: IOGame' ()
 gameCycle = do
@@ -19,11 +21,11 @@ gameCycle = do
   gameState <- getGameState
   case gameState of
     LevelStart n -> do printOnScreen (printf "Level %d" n) TimesRoman24 middlePosition 1.0 1.0 1.0
-    Level n -> do (GameAttribute score _ goldNumber _ _) <- getGameAttribute
-                  when (score >= 5 && goldNumber >= 100) (do
+    Level n -> do (GameAttribute score wallSpace goldNumber _ tempY _) <- getGameAttribute
+                  when (score >= (5 * n)) (do
                     if(n < 3) then do
                          setGameState (LevelStart (n+1))
-                         setGameAttribute (GameAttribute 0 ((snd windowSize)`div`2) 0 False 0)
+                         setGameAttribute (GameAttribute 0 wallSpace 0 False tempY 0)
                     else do setGameState (Win)
                                      )
     GameOver -> do printOnScreen (printf "Defeat!") TimesRoman24 middlePosition 1.0 1.0 1.0
@@ -41,7 +43,7 @@ stateControl m p = do
 
 showScore :: IOGame' ()
 showScore = do
-  (GameAttribute score _ goldNumber _ _) <- getGameAttribute
+  (GameAttribute score _ goldNumber _ _ _) <- getGameAttribute
   gameState <- getGameState
   case gameState of
     LevelStart n -> return()
@@ -58,6 +60,6 @@ main =
       walls = objectGroup "walls" createWalls
       golds = objectGroup "golds" createGolds
       input = [(SpecialKey KeyUp, Press, stateControl)]
-      startingAttributes = GameAttribute 0 ((snd windowSize)`div`2) 0 False 0
+      startingAttributes = GameAttribute 0 0 0 False (unsafePerformIO $ randomRIO (200, 500)::Int) 0
   in funInit winConfig gameMap [flappyBirds, walls, floors, golds] (LevelStart 1) startingAttributes input gameCycle (Timer 40) bmList
 
