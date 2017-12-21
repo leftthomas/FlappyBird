@@ -50,8 +50,8 @@ updateGoldsPosition (x:xs) = do
   (px, py) <- getObjectPosition x
   when (isGoldOut px) (do
     (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-    let y = fromIntegral (unsafePerformIO $ randomRIO (200, 500)::Int)
-    setObjectPosition (wallRightPosition, y) x
+    let y = (take 1 $ randomRs (200,500) (mkStdGen tempY) :: [Int])!!0
+    setObjectPosition (wallRightPosition, fromIntegral(y)) x
     setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
                       )
   updateGoldsPosition xs
