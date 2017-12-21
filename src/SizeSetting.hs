@@ -47,7 +47,7 @@ wallSize = setWallSize 69 491
 floorSize = setFloorOrCeilSize 1024 24
 flappyBirdSize = setFlappyBirdSize 40 30
 backgroudSize = setBackgroudSize 341 615
-goldSize = setSize 20 20
+goldSize = setSize 35 35
 
 --init the size of window
 windowSize = setWindowSize 1024 615

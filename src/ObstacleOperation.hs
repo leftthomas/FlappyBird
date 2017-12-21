@@ -84,7 +84,7 @@ computeScore _ 0 = return()
 computeScore [] _ = return()
 computeScore (x:xs) n = do
   (px, py) <- getObjectPosition x
-  when (isPass px) (do
+  if (isPass px) then (do
     (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
     let newY = (take 1 $ randomRs (200,500) (mkStdGen tempY) :: [Int])!!0
     if(down == False) then do
@@ -94,6 +94,9 @@ computeScore (x:xs) n = do
       setObjectPosition (wallRightPosition, (downWallFindPosition (fromIntegral(newY)) wallHole)) x
       setGameAttribute (GameAttribute score wallSpace goldNumber False newY lastCollisionGold)
                       )
+  else do
+      (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+      setGameAttribute (GameAttribute score wallSpace goldNumber False tempY lastCollisionGold)
   computeScore xs (n - 1)
 
 
