@@ -19,15 +19,15 @@ import System.Random
 goldSpeed = -10
 
 createGolds :: [Gold]
-createGolds = [(object "gold1" gold False (unsafePerformIO $ randomRIO (100.0,200.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
-               (object "gold2" gold False (unsafePerformIO $ randomRIO (210.0,310.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
-               (object "gold3" gold False (unsafePerformIO $ randomRIO (320.0,420.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
+createGolds = [(object "gold1" gold False (unsafePerformIO $ randomRIO (100.0,200.0),unsafePerformIO $ randomRIO (100.0,600.0)) (goldSpeed,0) ()),
+               (object "gold2" gold False (unsafePerformIO $ randomRIO (210.0,310.0),unsafePerformIO $ randomRIO (100.0,600.0)) (goldSpeed,0) ()),
+               (object "gold3" gold False (unsafePerformIO $ randomRIO (320.0,420.0),unsafePerformIO $ randomRIO (100.0,600.0)) (goldSpeed,0) ()),
                (object "gold4" gold False (unsafePerformIO $ randomRIO (301.0,400.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
                (object "gold5" gold False (unsafePerformIO $ randomRIO (401.0,600.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
                (object "gold6" gold False (unsafePerformIO $ randomRIO (501.0,600.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
-               (object "gold7" gold False (unsafePerformIO $ randomRIO (601.0,700.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
-               (object "gold8" gold False (unsafePerformIO $ randomRIO (701.0,800.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ()),
-               (object "gold9" gold False (unsafePerformIO $ randomRIO (801.0,900.0),unsafePerformIO $ randomRIO (50.0,600.0)) (goldSpeed,0) ())]
+               (object "gold7" gold False (unsafePerformIO $ randomRIO (601.0,700.0),unsafePerformIO $ randomRIO (400.0,600.0)) (goldSpeed,0) ()),
+               (object "gold8" gold False (unsafePerformIO $ randomRIO (701.0,800.0),unsafePerformIO $ randomRIO (400.0,600.0)) (goldSpeed,0) ()),
+               (object "gold9" gold False (unsafePerformIO $ randomRIO (801.0,900.0),unsafePerformIO $ randomRIO (400.0,600.0)) (goldSpeed,0) ())]
                       where gold = Tex goldSize (getPictureIndex "gold" pictures)
 
 
@@ -50,7 +50,8 @@ updateGoldsPosition (x:xs) = do
   (px, py) <- getObjectPosition x
   when (isGoldOut px) (do
     (GameAttribute score lastWallY goldNumber open lastCollisionGold) <- getGameAttribute
-    setObjectPosition (wallRightPosition,500) x
+    let y = fromIntegral (unsafePerformIO $ randomRIO (200, 500)::Int)
+    setObjectPosition (wallRightPosition, y) x
     setGameAttribute (GameAttribute score lastWallY goldNumber open lastCollisionGold)
                       )
   updateGoldsPosition xs

@@ -1,6 +1,8 @@
 module ObstacleClass(
     floorPosition,
     ceilPosition,
+    topWallFindPosition,
+    downWallFindPosition,
     wallDownPosition,
     wallRightPosition,
     wallLeftPosition,
@@ -17,6 +19,11 @@ floorPosition = ((fst middlePosition), (snd floorSize)/2)
 ceilPosition :: (Double, Double)
 ceilPosition = ((fst middlePosition), (fromIntegral((snd windowSize))-((snd floorSize)/2)))
 
+topWallFindPosition :: Double -> Double -> Double
+topWallFindPosition center hole = (center + ((snd wallSize)/2) + (hole/2))
+
+downWallFindPosition :: Double -> Double -> Double
+downWallFindPosition center hole = (center - ((snd wallSize)/2) - (hole/2))
 
 wallDownPosition :: Double -> Double
 --wallDownPosition = \y -> y - 615
