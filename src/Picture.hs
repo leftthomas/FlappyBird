@@ -26,16 +26,16 @@ getPictureIndex pictureName (x:xs) = if length xs == 0 then index
 --init the color
 black = color 0 0 0
 magenta = color 255 0 255
-pictures = [(("backgroud",0::Int),("pictures/background.bmp", black)),
-            (("wall",1::Int),("pictures/wall.bmp", black)),
-            (("ceil",2::Int),("pictures/floor.bmp", magenta)),
-            (("floor",3::Int),("pictures/ceil.bmp", magenta)),
-            (("flappyBird",4::Int),("pictures/bird.bmp", black)),
-            (("gold",5::Int),("pictures/gold.bmp", black))]
+pictures = [(("backgroud",0::Int),("assets/background.bmp", black)),
+            (("wall",1::Int),("assets/wall.bmp", black)),
+            (("ceil",2::Int),("assets/floor.bmp", magenta)),
+            (("floor",3::Int),("assets/ceil.bmp", magenta)),
+            (("flappyBird",4::Int),("assets/bird.bmp", black)),
+            (("gold",5::Int),("assets/gold.bmp", black))]
 
-bmList = [("pictures/background.bmp", black),
-            ("pictures/wall.bmp", black),
-            ("pictures/floor.bmp", magenta),
-            ("pictures/ceil.bmp", magenta),
-            ("pictures/bird.bmp", black),
-            ("pictures/gold.bmp", black)]
+bmList = [("assets/background.bmp", black),
+            ("assets/wall.bmp", black),
+            ("assets/floor.bmp", magenta),
+            ("assets/ceil.bmp", magenta),
+            ("assets/bird.bmp", black),
+            ("assets/gold.bmp", black)]
