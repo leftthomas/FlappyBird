@@ -5,7 +5,6 @@ This is a simple game made in a pure functional programming language —— [Has
 To run the game, you must have Cabal installed in your OS. You can get it by installing the [Haskell Platform](https://www.haskell.org/platform/). 
 
 # Usage
-## OS X >=10.11
 ```
 git clone https://github.com/leftthomas/FlappyBird.git
 cd FlappyBird
@@ -15,12 +14,9 @@ stack exec FlappyBird
 The game has 3 levels. You are going to level up each at score 5, 10 and 15.
 
 Controls: Press the up arrow key to control the bird and to pass the menu scenes.
-## Ubuntu 16.04
-### Step 1: Clone && build && exec
-Follow OS X   
-*If you are sucess, please ignore Step 2.*
-### Step 2: Error process
-[Error Process](https://github.com/BasicCoder/Haskell-Learning/blob/master/FixBuildFlappyBirdError.md)
+
+If you encounter problem, refer [this resolvent](https://github.com/BasicCoder/Haskell-Learning/blob/master/FixBuildFlappyBirdError.md).
+
 # Reference Resources
 - [Cabal User Guide](https://www.haskell.org/cabal/users-guide/) for building Haskell module.
 - [Stack User Guide](https://github.com/commercialhaskell/stack/blob/master/doc/GUIDE.md) for building Haskell module.
