@@ -28,8 +28,8 @@ black = color 0 0 0
 magenta = color 255 0 255
 pictures = [(("backgroud",0::Int),("assets/background.bmp", black)),
             (("wall",1::Int),("assets/wall.bmp", black)),
-            (("ceil",2::Int),("assets/floor.bmp", magenta)),
-            (("floor",3::Int),("assets/ceil.bmp", magenta)),
+            (("ceil",2::Int),("assets/ceil.bmp", magenta)),
+            (("floor",3::Int),("assets/floor.bmp", magenta)),
             (("flappyBird",4::Int),("assets/bird.bmp", black)),
             (("gold",5::Int),("assets/gold.bmp", black))]
 
