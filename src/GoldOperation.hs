@@ -34,12 +34,12 @@ setGoldsPosition :: [Gold] -> Int -> IOGame' ()
 setGoldsPosition [] _ = return()
 setGoldsPosition _ 0 = return()
 setGoldsPosition (x:xs) n = do
-    (px, py) <- getObjectPosition x
-    (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-    let y = (take 1 $ randomRs (200,500) (mkStdGen tempY) :: [Int])!!0
-    setObjectPosition (px, fromIntegral(y)) x
-    setGameAttribute (GameAttribute score wallSpace goldNumber down y lastCollisionGold)
-    setGoldsPosition xs (n - 1)
+  (px, py) <- getObjectPosition x
+  (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+  let y = head (take 1 $ randomRs (200, 500) (mkStdGen tempY) :: [Int])
+  setObjectPosition (px, fromIntegral y) x
+  setGameAttribute (GameAttribute score wallSpace goldNumber down y lastCollisionGold)
+  setGoldsPosition xs (n - 1)
 
 
 setGoldsAsleep :: [Gold] -> Bool -> IOGame' ()
@@ -59,15 +59,14 @@ updateGoldsPosition :: [Gold]  -> IOGame' ()
 updateGoldsPosition [] = return()
 updateGoldsPosition (x:xs) = do
   (px, py) <- getObjectPosition x
-  if (isGoldOut px) then (do
-    (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-    let newY = (take 1 $ randomRs (200,500) (mkStdGen tempY) :: [Int])!!0
-    setObjectPosition (wallRightPosition + px, fromIntegral(newY)) x
-    setGameAttribute (GameAttribute score wallSpace goldNumber down newY lastCollisionGold)
-                      )
-  else do
-    (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-    setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
+  if isGoldOut px
+    then (do (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+             let newY = head (take 1 $ randomRs (200, 500) (mkStdGen tempY) :: [Int])
+             setObjectPosition (wallRightPosition + px, fromIntegral newY) x
+             setGameAttribute (GameAttribute score wallSpace goldNumber down newY lastCollisionGold))
+    else do
+      (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+      setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
   updateGoldsPosition xs
 
 
@@ -75,17 +74,20 @@ goldCycle :: IOGame' ()
 goldCycle = do
   gameState <- getGameState
   case gameState of
-    LevelStart n -> do golds <- getObjectsFromGroup "golds"
-                       setGoldsAsleep golds True
-                       updateGoldsPosition golds
-                       setGoldsPosition golds 9
-    Level n ->  do golds <- getObjectsFromGroup "golds"
-                   setGoldsAsleep golds False
-                   updateGoldsPosition golds
-                   computeGolds golds 1
-    GameOver -> do return()
-    Win -> do golds <- getObjectsFromGroup "golds"
-              setGoldsAsleep golds True
+    LevelStart n -> do
+      golds <- getObjectsFromGroup "golds"
+      setGoldsAsleep golds True
+      updateGoldsPosition golds
+      setGoldsPosition golds 9
+    Level n -> do
+      golds <- getObjectsFromGroup "golds"
+      setGoldsAsleep golds False
+      updateGoldsPosition golds
+      computeGolds golds 1
+    GameOver -> return ()
+    Win -> do
+      golds <- getObjectsFromGroup "golds"
+      setGoldsAsleep golds True
 
 isGoldOut :: Double -> Bool
 isGoldOut position
@@ -97,20 +99,18 @@ computeGolds :: [Gold] -> Int -> IOGame' ()
 computeGolds [] _ = return ()
 computeGolds _ 9 = return ()
 computeGolds (x:xs) y = do
-        (px, py) <- getObjectPosition x
-        flappyBirds <- getObjectsFromGroup "flappyBird"
-        isCollision <- objectListObjectCollision flappyBirds x
-        (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-        if (isCollision) then (do
-            let newY = ((take 1 $ randomRs (200,500) (mkStdGen tempY) :: [Int])!!0)
-            setObjectPosition (wallRightPosition + px, fromIntegral(newY)) x
-            if (lastCollisionGold /= y) then (do
-                 setGameAttribute (GameAttribute score wallSpace (goldNumber+1) down newY y)
-                                           )
-            else do
-                 setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
-                           )
-        else do
-             setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
-        computeGolds xs (y+1)
+  (px, py) <- getObjectPosition x
+  flappyBirds <- getObjectsFromGroup "flappyBird"
+  isCollision <- objectListObjectCollision flappyBirds x
+  (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+  if isCollision
+    then (do let newY = ((take 1 $ randomRs (200, 500) (mkStdGen tempY) :: [Int]) !! 0)
+             setObjectPosition (wallRightPosition + px, fromIntegral (newY)) x
+             if (lastCollisionGold /= y)
+               then (do setGameAttribute (GameAttribute score wallSpace (goldNumber + 1) down newY y))
+               else do
+                 setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold))
+    else do
+      setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
+  computeGolds xs (y + 1)
 
