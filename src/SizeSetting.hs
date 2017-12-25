@@ -17,29 +17,29 @@ module SizeSetting(
 import Graphics.UI.Fungen
 
 setSize :: Double -> Double -> (Double, Double)
-setSize = \x y -> (x, y)
+setSize x y = (x, y)
 
 --set the size of background
 setBackgroudSize :: Double -> Double -> (Double, Double)
-setBackgroudSize = \x y -> (x, y)
+setBackgroudSize x y = (x, y)
 
 -- set the size of wall
 setWallSize :: Double -> Double -> (Double, Double)
-setWallSize = \x y -> (x, y)
+setWallSize x y = (x, y)
 
 -- set the size of floor
 setFloorOrCeilSize :: Double -> Double -> (Double, Double)
-setFloorOrCeilSize = \x y -> (x, y)
+setFloorOrCeilSize x y = (x, y)
 
 -- set the size of flappy bird
 setFlappyBirdSize :: Double -> Double -> (Double, Double)
-setFlappyBirdSize = \x y -> (x, y)
+setFlappyBirdSize x y = (x, y)
 
 setWindowSize :: Int -> Int -> (Int, Int)
-setWindowSize = \x y -> (x, y)
+setWindowSize x y = (x, y)
 
 setMiddleWindowSize :: (Int,Int) -> (Double, Double)
-setMiddleWindowSize = \(x,y) -> (fromIntegral(x `div` 2), fromIntegral(y `div` 2))
+setMiddleWindowSize (x, y) = (fromIntegral (x `div` 2), fromIntegral (y `div` 2))
 
 
 --init the size of picture
