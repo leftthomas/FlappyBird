@@ -73,12 +73,16 @@ setWallsPosition (x:xs) n = do
   (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
   (_, y) <- getObjectPosition x
   setObjectPosition (wallRightPosition + wallSpace, y) x
-  if(down == False) then do
-     setGameAttribute (GameAttribute score wallSpace goldNumber True tempY lastCollisionGold)
-     setWallsPosition xs (n - 1)
-  else do
-     setGameAttribute (GameAttribute score (wallSpace + 350) goldNumber False tempY lastCollisionGold)
-     setWallsPosition xs (n - 1)
+  if not down then
+    do setGameAttribute
+         (GameAttribute score wallSpace goldNumber True tempY
+            lastCollisionGold)
+       setWallsPosition xs (n - 1)
+  else
+    do setGameAttribute
+         (GameAttribute score (wallSpace + 350) goldNumber False tempY
+            lastCollisionGold)
+       setWallsPosition xs (n - 1)
 
 
 computeScore :: [Wall] -> Int -> IOGame' ()
@@ -86,17 +90,17 @@ computeScore _ 0 = return()
 computeScore [] _ = return()
 computeScore (x:xs) n = do
   (px, py) <- getObjectPosition x
-  if (isPass px) then (do
-    (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-    let newY = (take 1 $ randomRs (200,500) (mkStdGen tempY) :: [Int])!!0
-    if(down == False) then do
-      setObjectPosition (wallRightPosition, (topWallFindPosition (fromIntegral(newY)) wallHole)) x
-      setGameAttribute (GameAttribute (score+1) wallSpace goldNumber True tempY lastCollisionGold)
+  if isPass px
+    then (do (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+             let newY = head (take 1 $ randomRs (200, 500) (mkStdGen tempY) :: [Int])
+             if not down
+               then do
+                 setObjectPosition (wallRightPosition, topWallFindPosition (fromIntegral newY) wallHole) x
+                 setGameAttribute (GameAttribute (score + 1) wallSpace goldNumber True tempY lastCollisionGold)
+               else do
+                 setObjectPosition (wallRightPosition, downWallFindPosition (fromIntegral newY) wallHole) x
+                 setGameAttribute (GameAttribute score wallSpace goldNumber False newY lastCollisionGold))
     else do
-      setObjectPosition (wallRightPosition, (downWallFindPosition (fromIntegral(newY)) wallHole)) x
-      setGameAttribute (GameAttribute score wallSpace goldNumber False newY lastCollisionGold)
-                      )
-  else do
       (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
       setGameAttribute (GameAttribute score wallSpace goldNumber False tempY lastCollisionGold)
   computeScore xs (n - 1)
