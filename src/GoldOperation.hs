@@ -19,15 +19,14 @@ import System.Random
 goldSpeed = -10
 
 createGolds :: [Gold]
-createGolds = [(object "gold1" gold False (unsafePerformIO $ randomRIO (150.0,200.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold2" gold False (unsafePerformIO $ randomRIO (250.0,300.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold3" gold False (unsafePerformIO $ randomRIO (350.0,400.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold4" gold False (unsafePerformIO $ randomRIO (450.0,500.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold5" gold False (unsafePerformIO $ randomRIO (550.0,600.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold6" gold False (unsafePerformIO $ randomRIO (650.0,700.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold7" gold False (unsafePerformIO $ randomRIO (750.0,800.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()),
-               (object "gold8" gold False (unsafePerformIO $ randomRIO (850.0,900.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ())]
-            --   (object "gold9" gold False (unsafePerformIO $ randomRIO (950.0,1000.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ())]
+createGolds = [object "gold1" gold False (unsafePerformIO $ randomRIO (150.0,200.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold2" gold False (unsafePerformIO $ randomRIO (250.0,300.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold3" gold False (unsafePerformIO $ randomRIO (350.0,400.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold4" gold False (unsafePerformIO $ randomRIO (450.0,500.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold5" gold False (unsafePerformIO $ randomRIO (550.0,600.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold6" gold False (unsafePerformIO $ randomRIO (650.0,700.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold7" gold False (unsafePerformIO $ randomRIO (750.0,800.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) (),
+               object "gold8" gold False (unsafePerformIO $ randomRIO (850.0,900.0),unsafePerformIO $ randomRIO (100.0,400.0)) (goldSpeed,0) ()]
                       where gold = Tex goldSize (getPictureIndex "gold" pictures)
 
 setGoldsPosition :: [Gold] -> Int -> IOGame' ()
@@ -104,13 +103,11 @@ computeGolds (x:xs) y = do
   isCollision <- objectListObjectCollision flappyBirds x
   (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
   if isCollision
-    then (do let newY = ((take 1 $ randomRs (200, 500) (mkStdGen tempY) :: [Int]) !! 0)
-             setObjectPosition (wallRightPosition + px, fromIntegral (newY)) x
-             if (lastCollisionGold /= y)
-               then (do setGameAttribute (GameAttribute score wallSpace (goldNumber + 1) down newY y))
-               else do
-                 setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold))
-    else do
-      setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
+    then (do let newY = head (take 1 $ randomRs (200, 500) (mkStdGen tempY) :: [Int])
+             setObjectPosition (wallRightPosition + px, fromIntegral newY) x
+             if lastCollisionGold /= y
+               then setGameAttribute (GameAttribute score wallSpace (goldNumber + 1) down newY y)
+               else setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold))
+    else setGameAttribute (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold)
   computeGolds xs (y + 1)
 
