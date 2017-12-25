@@ -26,13 +26,13 @@ If you encounter problem, refer [this resolvent](https://github.com/BasicCoder/H
 - [FunGEn](http://fungen.joyful.com) for learning how to use functional game engine to write Haskell game.
 
 # Game ScreenShot
-![](images/1.png)
-![](images/2.png)
-![](images/3.png)
-![](images/4.png)
-![](images/5.png)
-![](images/6.png)
-![](images/7.png)
-![](images/8.png)
-![](images/9.png)
-![](images/10.png)
+![](screenshot/1.png)
+![](screenshot/2.png)
+![](screenshot/3.png)
+![](screenshot/4.png)
+![](screenshot/5.png)
+![](screenshot/6.png)
+![](screenshot/7.png)
+![](screenshot/8.png)
+![](screenshot/9.png)
+![](screenshot/10.png)
