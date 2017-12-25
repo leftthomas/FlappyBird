@@ -24,7 +24,7 @@ gameCycle = do
     Level n -> do
       (GameAttribute score wallSpace goldNumber _ tempY _) <- getGameAttribute
       when
-        (score >= (5 * n))
+        (score >= (5 * n) && goldNumber >= (10 * n))
         (if n < 3
            then do
              setGameState (LevelStart (n + 1))
