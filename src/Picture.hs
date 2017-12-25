@@ -9,7 +9,7 @@ module Picture(
 
 import Graphics.UI.Fungen
 
---set the color use InvList in Fungen Types.hs
+--set the color use InvList in Fungen
 color :: Int -> Int -> Int -> InvList
 color r g b = Just [(r, g, b)]
 

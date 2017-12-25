@@ -30,7 +30,7 @@ flappyBird = createFlappyBird "flappyBird" flappyBirdPicture False startPosition
 createObjectPicture :: (Double,Double) -> Int -> ObjectPicture
 createObjectPicture (x, y) = Tex (x, y)
 
---create flappy bird object using object function in Fungen Objects.hs
+--create flappy bird object using object function in Fungen
 createFlappyBird :: String -> ObjectPicture -> Bool -> (Double,Double) -> (Double,Double) -> FlappyBird
 createFlappyBird name picture asleep position initSpeed = object name picture asleep position initSpeed ()
 

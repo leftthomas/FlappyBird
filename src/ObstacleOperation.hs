@@ -22,31 +22,33 @@ wallSpeed = -10
 wallHole = 125.0
 
 createFloorAndCeil :: [Floor]
-createFloorAndCeil = [(object "floor" floor False floorPosition (0,0) ()),
-                      (object "ceil" ceil False ceilPosition (0,0) ())]
-                      where floor = Tex floorSize (getPictureIndex "floor" pictures)
-                            ceil = Tex floorSize (getPictureIndex "ceil" pictures)
+createFloorAndCeil =
+  [object "floor" floor False floorPosition (0, 0) (), object "ceil" ceil False ceilPosition (0, 0) ()]
+  where
+    floor = Tex floorSize (getPictureIndex "floor" pictures)
+    ceil = Tex floorSize (getPictureIndex "ceil" pictures)
 
 createWalls :: [Wall]
-createWalls = [(object "topWall_0" wall False topWallPosition_0 (wallSpeed,0) ()),
-               (object "downWall_0" wall False downWallPosition_0 (wallSpeed,0) ()),
-               (object "topWall_1" wall False topWallPosition_1 (wallSpeed,0) ()),
-               (object "downWall_1" wall False downWallPosition_1 (wallSpeed,0) ()),
-               (object "topWall_2" wall False topWallPosition_2 (wallSpeed,0) ()),
-               (object "downWall_2" wall False downWallPosition_2 (wallSpeed,0) ())]
-               --(object "topWall_3" wall False topWallPosition_3 (wallSpeed,0) ()),
-               --(object "downWall_3" wall False downWallPosition_3 (wallSpeed,0) ())]
-                      where wall = Tex wallSize (getPictureIndex "wall" pictures)
-                            randomY = [unsafePerformIO $ randomRIO (200, 500::Int) | x <- [1..10]]
-                            y_0 = fromIntegral(randomY !! 0)
-                            topWallPosition_0 = (0, (topWallFindPosition y_0 wallHole))
-                            downWallPosition_0 = (0, (downWallFindPosition y_0 wallHole))
-                            y_1 = fromIntegral(randomY !! 1)
-                            topWallPosition_1 = (0, (topWallFindPosition y_1 wallHole))
-                            downWallPosition_1 = (0, (downWallFindPosition y_1 wallHole))
-                            y_2 = fromIntegral(randomY !! 2)
-                            topWallPosition_2 = (0, (topWallFindPosition y_2 wallHole))
-                            downWallPosition_2 = (0, (downWallFindPosition y_2 wallHole))
+createWalls =
+  [ object "topWall_0" wall False topWallPosition_0 (wallSpeed, 0) ()
+  , object "downWall_0" wall False downWallPosition_0 (wallSpeed, 0) ()
+  , object "topWall_1" wall False topWallPosition_1 (wallSpeed, 0) ()
+  , object "downWall_1" wall False downWallPosition_1 (wallSpeed, 0) ()
+  , object "topWall_2" wall False topWallPosition_2 (wallSpeed, 0) ()
+  , object "downWall_2" wall False downWallPosition_2 (wallSpeed, 0) ()
+  ]
+  where
+    wall = Tex wallSize (getPictureIndex "wall" pictures)
+    randomY = [unsafePerformIO $ randomRIO (200, 500 :: Int) | x <- [1 .. 10]]
+    y_0 = fromIntegral (head randomY)
+    topWallPosition_0 = (0, topWallFindPosition y_0 wallHole)
+    downWallPosition_0 = (0, downWallFindPosition y_0 wallHole)
+    y_1 = fromIntegral (randomY !! 1)
+    topWallPosition_1 = (0, topWallFindPosition y_1 wallHole)
+    downWallPosition_1 = (0, downWallFindPosition y_1 wallHole)
+    y_2 = fromIntegral (randomY !! 2)
+    topWallPosition_2 = (0, topWallFindPosition y_2 wallHole)
+    downWallPosition_2 = (0, downWallFindPosition y_2 wallHole)
 
 
 setObjectsAsleep :: [GameObject ()] -> Bool -> Int -> IOGame' ()
@@ -104,14 +106,17 @@ obstacleCycle :: IOGame' ()
 obstacleCycle = do
   gameState <- getGameState
   case gameState of
-    LevelStart n -> do walls <- getObjectsFromGroup "walls"
-                       setObjectsAsleep walls True (2 * n)
-                       (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
-                       setGameAttribute (GameAttribute score 0 goldNumber down tempY lastCollisionGold)
-                       setWallsPosition walls (2 * n)
-    Level n ->  do walls <- getObjectsFromGroup "walls"
-                   setObjectsAsleep walls False (2 * n)
-                   computeScore walls (2 * n)
-    GameOver -> do return()
-    Win -> do walls <- getObjectsFromGroup "walls"
-              setObjectsAsleep walls True 6
+    LevelStart n -> do
+      walls <- getObjectsFromGroup "walls"
+      setObjectsAsleep walls True (2 * n)
+      (GameAttribute score wallSpace goldNumber down tempY lastCollisionGold) <- getGameAttribute
+      setGameAttribute (GameAttribute score 0 goldNumber down tempY lastCollisionGold)
+      setWallsPosition walls (2 * n)
+    Level n -> do
+      walls <- getObjectsFromGroup "walls"
+      setObjectsAsleep walls False (2 * n)
+      computeScore walls (2 * n)
+    GameOver -> return ()
+    Win -> do
+      walls <- getObjectsFromGroup "walls"
+      setObjectsAsleep walls True 6
