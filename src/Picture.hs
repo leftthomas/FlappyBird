@@ -11,16 +11,18 @@ import Graphics.UI.Fungen
 
 --set the color use InvList in Fungen Types.hs
 color :: Int -> Int -> Int -> InvList
-color = \r g b -> Just [(r,g,b)]
+color r g b = Just [(r, g, b)]
 
 -- get the index in pictures for use of Tex
 getPictureIndex :: String -> [((String,Int),(String,InvList))] -> Int
-getPictureIndex pictureName (x:xs) = if length xs == 0 then index
-                                        else if  pictureName == pictureName' then index
-                                            else getPictureIndex pictureName xs
-                                                where tuple = fst x
-                                                      pictureName' = fst tuple
-                                                      index = snd tuple
+getPictureIndex pictureName (x:xs)
+  | null xs = index
+  | pictureName == pictureName' = index
+  | otherwise = getPictureIndex pictureName xs
+  where
+    tuple = fst x
+    pictureName' = fst tuple
+    index = snd tuple
 
 
 --init the color
