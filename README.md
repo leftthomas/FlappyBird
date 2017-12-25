@@ -11,7 +11,7 @@ cd FlappyBird
 stack build
 stack exec FlappyBird
 ```
-The game has 3 levels. You are going to level up each at score 5, 10 and 15.
+The game has 3 levels. You are going to level up each at score=5 & gold=10, score=10 & gold=20, score=15 & gold=30.
 
 Controls: Press the up arrow key to control the bird and to pass the menu scenes.
 
@@ -26,13 +26,23 @@ If you encounter problem, refer [this resolvent](https://github.com/BasicCoder/H
 - [FunGEn](http://fungen.joyful.com) for learning how to use functional game engine to write Haskell game.
 
 # Game ScreenShot
-![](screenshot/1.png)
-![](screenshot/2.png)
-![](screenshot/3.png)
-![](screenshot/4.png)
-![](screenshot/5.png)
-![](screenshot/6.png)
-![](screenshot/7.png)
-![](screenshot/8.png)
-![](screenshot/9.png)
-![](screenshot/10.png)
+<table>
+  <tr>
+    <td>
+     <img src="screenshot/1.png"/>
+    </td>
+    <td>
+     <img src="screenshot/2.png"/>
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td>
+     <img src="screenshot/3.png"/>
+    </td>
+    <td>
+     <img src="screenshot/4.png"/>
+    </td>
+  </tr>
+</table>
